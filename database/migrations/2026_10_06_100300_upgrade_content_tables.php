@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,8 +14,15 @@ return new class extends Migration
             $table->dropForeign(['category_id']);
         });
 
+        if ($this->isPgsql()) {
+            $this->dropNotNull('news', ['user_id']);
+        } else {
+            Schema::table('news', function (Blueprint $table) {
+                $table->unsignedBigInteger('user_id')->nullable()->change();
+            });
+        }
+
         Schema::table('news', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable()->change();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->foreign('category_id')->references('id')->on('categories')->restrictOnDelete();
             $table->foreignId('club_id')->nullable()->after('user_id')->constrained()->nullOnDelete();
@@ -44,9 +52,16 @@ return new class extends Migration
             $table->index(['active', 'category']);
         });
 
+        if ($this->isPgsql()) {
+            $this->dropNotNull('players', ['birth_date', 'number']);
+        } else {
+            Schema::table('players', function (Blueprint $table) {
+                $table->date('birth_date')->nullable()->change();
+                $table->integer('number')->nullable()->change();
+            });
+        }
+
         Schema::table('players', function (Blueprint $table) {
-            $table->date('birth_date')->nullable()->change();
-            $table->integer('number')->nullable()->change();
             $table->string('club_name')->nullable()->after('team_id');
         });
 
@@ -144,5 +159,20 @@ return new class extends Migration
             $table->dropConstrainedForeignId('club_id');
             $table->dropColumn(['image_credit', 'source_url', 'views']);
         });
+    }
+    /**
+     * ->change() génère « DROP IDENTITY IF EXISTS » sur PostgreSQL, refusé avant PG 10
+     * (cas du serveur de prod) : on se contente de lever la contrainte NOT NULL.
+     */
+    private function isPgsql(): bool
+    {
+        return DB::getDriverName() === 'pgsql';
+    }
+
+    private function dropNotNull(string $table, array $columns): void
+    {
+        foreach ($columns as $column) {
+            DB::statement(sprintf('ALTER TABLE "%s" ALTER COLUMN "%s" DROP NOT NULL', $table, $column));
+        }
     }
 };

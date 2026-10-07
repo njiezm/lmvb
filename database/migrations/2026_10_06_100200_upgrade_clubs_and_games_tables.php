@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,19 +18,38 @@ return new class extends Migration
             $table->string('instagram')->nullable()->after('facebook');
             $table->unsignedSmallInteger('founded_year')->nullable()->after('members_count');
             $table->softDeletes();
-
-            $table->text('description')->nullable()->change();
-            $table->string('address')->nullable()->change();
-            $table->string('phone')->nullable()->change();
-            $table->string('email')->nullable()->change();
             $table->index(['active', 'name']);
         });
+
+        if ($this->isPgsql()) {
+            $this->dropNotNull('clubs', ['description', 'address', 'phone', 'email']);
+        } else {
+            Schema::table('clubs', function (Blueprint $table) {
+                $table->text('description')->nullable()->change();
+                $table->string('address')->nullable()->change();
+                $table->string('phone')->nullable()->change();
+                $table->string('email')->nullable()->change();
+            });
+        }
 
         Schema::table('games', function (Blueprint $table) {
             // Un club supprimé ne doit plus effacer son historique de matchs.
             $table->dropForeign(['home_team_id']);
             $table->dropForeign(['away_team_id']);
         });
+
+        if ($this->isPgsql()) {
+            $this->dropNotNull('games', ['date_time', 'venue', 'competition', 'home_team_id', 'away_team_id']);
+            DB::statement('ALTER TABLE "games" ALTER COLUMN "competition" DROP DEFAULT');
+        } else {
+            Schema::table('games', function (Blueprint $table) {
+                $table->dateTime('date_time')->nullable()->change();
+                $table->string('venue')->nullable()->change();
+                $table->string('competition')->nullable()->default(null)->change();
+                $table->unsignedBigInteger('home_team_id')->nullable()->change();
+                $table->unsignedBigInteger('away_team_id')->nullable()->change();
+            });
+        }
 
         Schema::table('games', function (Blueprint $table) {
             $table->foreignId('competition_id')->nullable()->after('id')->constrained()->nullOnDelete();
@@ -46,12 +66,6 @@ return new class extends Migration
             $table->text('notes')->nullable()->after('referee_2');
             $table->boolean('locked')->default(false)->after('notes'); // saisie manuelle : l'import ne l'écrase pas
             $table->timestamp('synced_at')->nullable()->after('locked');
-
-            $table->dateTime('date_time')->nullable()->change();
-            $table->string('venue')->nullable()->change();
-            $table->string('competition')->nullable()->default(null)->change();
-            $table->unsignedBigInteger('home_team_id')->nullable()->change();
-            $table->unsignedBigInteger('away_team_id')->nullable()->change();
 
             $table->foreign('home_team_id')->references('id')->on('clubs')->nullOnDelete();
             $table->foreign('away_team_id')->references('id')->on('clubs')->nullOnDelete();
@@ -96,5 +110,20 @@ return new class extends Migration
             $table->dropUnique(['ffvb_number']);
             $table->dropColumn(['ffvb_number', 'short_name', 'city', 'venue', 'facebook', 'instagram', 'founded_year', 'deleted_at']);
         });
+    }
+    /**
+     * ->change() génère « DROP IDENTITY IF EXISTS » sur PostgreSQL, refusé avant PG 10
+     * (cas du serveur de prod) : on se contente de lever la contrainte NOT NULL.
+     */
+    private function isPgsql(): bool
+    {
+        return DB::getDriverName() === 'pgsql';
+    }
+
+    private function dropNotNull(string $table, array $columns): void
+    {
+        foreach ($columns as $column) {
+            DB::statement(sprintf('ALTER TABLE "%s" ALTER COLUMN "%s" DROP NOT NULL', $table, $column));
+        }
     }
 };

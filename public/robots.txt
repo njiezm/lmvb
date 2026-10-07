@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Disallow: /password
+
+Sitemap: https://lmvb972.fr/sitemap.xml

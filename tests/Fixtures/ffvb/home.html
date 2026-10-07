@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html> 
+<head> 
+<title>FFvolley - Gestion Sportive</title> 
+<link href="../ffvb_sportive_fond.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+        $(function() {
+          if ($.browser.msie && $.browser.version.substr(0,1)<7)
+          {
+                $('li').has('ul').mouseover(function(){
+                        $(this).children('ul').show();
+                        }).mouseout(function(){
+                        $(this).children('ul').hide();
+                        })
+          }
+        });
+</script>
+
+<style>
+.titreblanc {
+	COLOR: #FFFFFF; FONT-FAMILY: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 12pt; FONT-WEIGHT: bold
+}
+
+/* Principal */
+#menu
+{
+	width: 100%;
+	margin: 0;
+	padding: 10px 0 0 0;
+	list-style: none;  
+	background: #CC0000;
+	background: -moz-linear-gradient(#CC0000, #111); 
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #CC0000));	
+	background: -webkit-linear-gradient(#CC0000, #111);	
+	background: -o-linear-gradient(#CC0000, #111);
+	background: -ms-linear-gradient(#CC0000, #111);
+	background: linear-gradient(#CC0000, #111);
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	-moz-box-shadow: 0 2px 1px #9c9c9c;
+	-webkit-box-shadow: 0 2px 1px #9c9c9c;
+	box-shadow: 0 2px 1px #9c9c9c;
+}
+
+#menu li
+{
+	float: left;
+	padding: 0 0 10px 0;
+	position: relative;
+	line-height: 0;
+}
+
+#menu a 
+{
+	float: left;
+	height: 25px;
+	padding: 0 25px;
+	color: #999;
+	text-transform: uppercase;
+	font: bold 12px/25px Arial, Helvetica;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #000;
+}
+
+#menu li:hover > a
+{
+	color: #fafafa;
+}
+
+*html #menu li a:hover /* IE6 */
+{
+	color: #fafafa;
+}
+
+#menu li:hover > ul
+{
+	display: block;
+}
+
+/* Sub-menu */
+
+#menu ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;    
+    display: none;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    z-index: 99999;    
+    background: #990000;
+    background: -moz-linear-gradient(#CC0000, #111);
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #CC0000));
+    background: -webkit-linear-gradient(#CC0000, #111);    
+    background: -o-linear-gradient(#CC0000, #111);	
+    background: -ms-linear-gradient(#CC0000, #111);	
+    background: linear-gradient(#CC0000, #111);
+    -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
+    -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
+    box-shadow: 0 0 2px rgba(255,255,255,.5);	
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#menu ul ul
+{
+  top: 0;
+  left: 100px;
+}
+
+#menu ul li
+{
+    float: none;
+    margin: 0;
+    padding: 0;
+    display: block;  
+    -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
+    -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
+    box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
+}
+
+#menu ul li:last-child
+{   
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;    
+}
+
+#menu ul a
+{    
+    padding: 10px;
+	height: auto;
+    line-height: 1;
+    display: block;
+    white-space: nowrap;
+    float: none;
+	text-transform: none;
+}
+
+*html #menu ul a /* IE6 */
+{    
+	height: 10px;
+}
+
+*:first-child+html #menu ul a /* IE7 */
+{    
+	height: 10px;
+}
+
+#menu ul a:hover
+{
+    background: #0186ba;
+	background: -moz-linear-gradient(#04acec,  #0186ba);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
+	background: -webkit-linear-gradient(#04acec,  #0186ba);
+	background: -o-linear-gradient(#04acec,  #0186ba);
+	background: -ms-linear-gradient(#04acec,  #0186ba);
+	background: linear-gradient(#04acec,  #0186ba);
+}
+
+#menu ul li:first-child > a
+{
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+}
+
+#menu ul li:first-child > a:after
+{
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: -8px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid #CC0000;
+}
+
+#menu ul ul li:first-child a:after
+{
+    left: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-left: 0;	
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-right: 8px solid #CC0000;
+}
+
+#menu ul li:first-child a:hover:after
+{
+    border-bottom-color: #04acec; 
+}
+
+#menu ul ul li:first-child a:hover:after
+{
+    border-right-color: #04acec; 
+    border-bottom-color: transparent; 	
+}
+
+
+#menu ul li:last-child > a
+{
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Clear floated elements */
+#menu:after 
+{
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+* html #menu             { zoom: 1; } /* IE6 */
+*:first-child+html #menu { zoom: 1; } /* IE7 */
+</style>
+
+<!-- AdPacks -->
+<style>
+#adpacks-wrapper{font-family: Arial, Helvetica;width:280px;position: fixed;_position:absolute;bottom: 0;right: 20px;z-index: 9999;background: #eaeaea;padding: 10px;-moz-box-shadow: 0 0 15px #444;-webkit-box-shadow: 0 0 15px #444;box-shadow: 0 0 15px #444;}
+body .adpacks{background:#fff;padding:15px;margin:15px 0 0;border:3px solid #eee;}
+body .one .bsa_it_ad{background:transparent;border:none;font-family:inherit;padding:0;margin:0;}
+body .one .bsa_it_ad .bsa_it_i{display:block;padding:0;float:left;margin:0 10px 0 0;}
+body .one .bsa_it_ad .bsa_it_i img{padding:0;border:none;}
+body .one .bsa_it_ad .bsa_it_t{padding: 0 0 6px 0; font-size: 11px;}
+body .one .bsa_it_p{display:none;}
+body #bsap_aplink,body #bsap_aplink:hover{display:block;font-size:9px;margin: -15px 0 0 0;text-align:right;}
+body .one .bsa_it_ad .bsa_it_d{font-size: 11px;}
+body .one{overflow: hidden}
+</style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2021377-60']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G41692G2SG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G41692G2SG');
+</script>
+
+</head> 
+<body> 
+<TABLE border='0' align='center' cellpadding='0' cellspacing='0' bordercolor='#FFFFFF' bgcolor='#E4E4E4'>
+<tr>
+<td><div align="center">
+<p align='center'>
+</p>
+</div></td>
+</tr>
+</TABLE>
+<TABLE border='0' align='center' cellpadding='3' cellspacing='0' bordercolor='#FFFFFF' bgcolor='#E4E4E4'><tr><td bgcolor='#FFFFFF'><div align='center'><IMG SRC='../images/resu_2526.jpg' WIDTH=0500 HEIGHT=0032></div></td></tr><TR><td background='../images/bkrg.gif' class='titreblanc' align='center'>Ligue MARTINIQUE</td></TR></TABLE><br><ul id="menu">
+<li><a href="http://www.ffvb.org/">FFvolley</a></li>
+<li>
+<a href="#">Compétitions</a>
+<ul>
+<li>
+<a href="#">CHAMPIONNAT M18-M21 FEMININ 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=FPD' target='_parent'>FPD PLAY-DOWM M18/M21 FEMININ - 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PCN' target='_parent'>PCN CHAMPIONNAT M18-M21 FEMININ - POULE CENTRE NORD</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFF' target='_parent'>PFF PLAY-OFF M18/21 FILLES 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PSJ' target='_parent'>PSJ CHAMPIONNAT M18-M21 FEMININ - POULE SUD</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PUF' target='_parent'>PUF CHAMPIONNAT M18-M21 FEMININ - POULE UNIQUE</a></li>
+</ul>
+</li>
+<li>
+<a href="#">CHAMPIONNAT M13-M15 FEMININ 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=CPP' target='_parent'>CPP CHAMPIONNAT M13-M15 FEMININ 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPF' target='_parent'>PPF PLAY-OFF M13-M15 FEMININ 2025/2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">CHAMPIONNAT SENIOR FEMININ 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=FPO' target='_parent'>FPO PLAY-OFFS SENIOR FEMININ 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFA' target='_parent'>PFA CHAMPIONNAT SENIOR FEMININ - POULE A 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFB' target='_parent'>PFB CHAMPIONNAT SENIOR FEMININ - POULE B 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PLD' target='_parent'>PLD PLAY-DOWN SENIOR FEMININ - 2025/2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">COUPE FEMININE 2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&division=CFT' target='_parent' class='liensuite4'><img src='../images/url.png' align='absmiddle'> COUPE FEMININE 2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">CHAMPIONNAT M18-M21 MASCULIN 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MCN' target='_parent'>MCN CHAMPIONNAT M18-M21 MASCULIN - POULE CENTRE NORD</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MPD' target='_parent'>MPD PLAY-DOWM M18/M21 MASCULIN - 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MSJ' target='_parent'>MSJ CHAMPIONNAT M18-M21 MASCULIN - POULE SUD</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PGG' target='_parent'>PGG PLAY-OFFS M18/21 GARCONS 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PUM' target='_parent'>PUM CHAMPIONNAT M18-M21 MASCULIN - POULE UNIQUE</a></li>
+</ul>
+</li>
+<li>
+<a href="#">CHAMPIONNAT M13-M15 MASCULIN 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPC' target='_parent'>PPC CHAMPIONNAT M13-M15 MASCULIN 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPM' target='_parent'>PPM PLAY-OFF M13-M15 MASCULIN 2025/2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">CHAMPIONNAT SENIOR MASCULIN 2025/2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=CUM' target='_parent'>CUM CHAMPIONNAT SENIOR MASCULIN - POULE UNIQUE 2025/2026</a></li>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MPO' target='_parent'>MPO PLAY-OFFS SENIOR MASCULIN 2025/2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">COUPE MASCULINE 2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&division=CMT' target='_parent' class='liensuite4'><img src='../images/url.png' align='absmiddle'> COUPE MASCULINE 2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">TOURNOI DES CHAMPIONNES 2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PTF' target='_parent'>PTF TOURNOI DES CHAMPIONNES ANTILLES 2026</a></li>
+</ul>
+</li>
+<li>
+<a href="#">TOURNOI DES CHAMPIONS 2026</a>
+<ul>
+<li><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PTM' target='_parent'>PTM TOURNOI DES CHAMPIONS ANTILLES 2026</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#">Adressiers</a>
+<ul>
+<li>
+<a href='../adressier/adressier.php?codent=LIMART' target='_blank'>Adressier PDF des équipes par poule</a>
+</li>
+<li>
+<a href='../adressier/adressier.php?codent=LIMART&typ_edition=E' target='_blank'>Adressier Excel des équipes par poule</a>
+</li>
+<li>
+<a href='../adressier/engag_division.php?codent=LIMART' target='_blank'>Liste des Engagements</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#">Contacts</a>
+<ul>
+<li>
+<a href='https://www.facebook.com/Ligue-Martiniquaise-Volley-Ball-Officiel-129556443821038/' target='_blank'>Site Web : https://www.facebook.com/Ligue-Martiniquaise-Volley-Ball-Officiel-129556443821038/</a>
+</li>
+<li>
+<a href='mailto:secretariatvolleymque@gmail.com'>Envoyer un mail : secretariatvolleymque@gmail.com</a>
+</li>
+</ul>
+</li>
+</ul>
+<table border="0" align="center" cellpadding="1" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#FFFFFF"><tr><td align="center"><div style="text-align: center; ">&nbsp;<a target="_blank" href="https://boutique.ffvolley.org"><img border="0" align="absMiddle" alt="" src="https://www.ffvbbeach.org/ffvbapp/images/ffvolley_boutique_250919.jpg" title="La Boutique Officielle de la FFvolley" WIDTH=0260 HEIGHT=0108/></a></div></td></tr><tr></tr></table>
+<table border='0' align='center' cellpadding='0' cellspacing='1'><tr><td valign='top'><TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 ALIGN='center' style='text-align: right' bgcolor='#EEEEF8'><tr><td background='../images/bkrg.gif' class='lienblanc' align='left'><img src='../images/favorites.png' align='absmiddle' border='0'> Accès direct aux Compétitions de la Ligue Régionale</td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT M18-M21 FEMININ 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=FPD' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> FPD PLAY-DOWM M18/M21 FEMININ - 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PCN' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PCN CHAMPIONNAT M18-M21 FEMININ - POULE CENTRE NORD</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFF' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PFF PLAY-OFF M18/21 FILLES 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PSJ' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PSJ CHAMPIONNAT M18-M21 FEMININ - POULE SUD</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PUF' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PUF CHAMPIONNAT M18-M21 FEMININ - POULE UNIQUE</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT M13-M15 FEMININ 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=CPP' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> CPP CHAMPIONNAT M13-M15 FEMININ 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPF' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PPF PLAY-OFF M13-M15 FEMININ 2025/2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT SENIOR FEMININ 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=FPO' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> FPO PLAY-OFFS SENIOR FEMININ 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFA' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PFA CHAMPIONNAT SENIOR FEMININ - POULE A 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PFB' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PFB CHAMPIONNAT SENIOR FEMININ - POULE B 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PLD' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PLD PLAY-DOWN SENIOR FEMININ - 2025/2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>COUPE FEMININE 2026</td></tr><tr><td bgcolor='#EEEEF8' class='rubrique1' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&division=CFT' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> COUPE FEMININE 2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT M18-M21 MASCULIN 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MCN' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> MCN CHAMPIONNAT M18-M21 MASCULIN - POULE CENTRE NORD</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MPD' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> MPD PLAY-DOWM M18/M21 MASCULIN - 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MSJ' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> MSJ CHAMPIONNAT M18-M21 MASCULIN - POULE SUD</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PGG' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PGG PLAY-OFFS M18/21 GARCONS 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PUM' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PUM CHAMPIONNAT M18-M21 MASCULIN - POULE UNIQUE</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT M13-M15 MASCULIN 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPC' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PPC CHAMPIONNAT M13-M15 MASCULIN 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PPM' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PPM PLAY-OFF M13-M15 MASCULIN 2025/2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>CHAMPIONNAT SENIOR MASCULIN 2025/2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=CUM' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> CUM CHAMPIONNAT SENIOR MASCULIN - POULE UNIQUE 2025/2026</a></td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=MPO' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> MPO PLAY-OFFS SENIOR MASCULIN 2025/2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>COUPE MASCULINE 2026</td></tr><tr><td bgcolor='#EEEEF8' class='rubrique1' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&division=CMT' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> COUPE MASCULINE 2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>TOURNOI DES CHAMPIONNES 2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PTF' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PTF TOURNOI DES CHAMPIONNES ANTILLES 2026</a></td></tr><tr><td bgcolor='#E4E4E4' class='liengris' align='left'>TOURNOI DES CHAMPIONS 2026</td></tr><tr><td bgcolor='#EEEEF8' class='liengris' align='left'><a href='vbspo_calendrier.php?saison=2025/2026&codent=LIMART&poule=PTM' target='_parent' class='liensuite4'><img src='../images/ballon_volley.jpg' align='absmiddle'> PTM TOURNOI DES CHAMPIONS ANTILLES 2026</a></td></tr></table></td><td valign='top'><TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 ALIGN='center' style='text-align: right' bgcolor='#CCCCCC'><tr><td background='../images/bkrg.gif' class='lienblanc' align='left'><img src='../images/favorites.png' align='absmiddle' border='0'>  Les Contacts de la Ligue Régionale</td></tr><tr><tr><td bgcolor='#EEEEF8' align='left'><a href='https://www.facebook.com/Ligue-Martiniquaise-Volley-Ball-Officiel-129556443821038/' target='_blank' class='lienquestion'><img src='../images/http.jpg' width='17' height='11' align='absmiddle' border='0'> https://www.facebook.com/Ligue-Martiniquaise-Volley-Ball-Officiel-129556443821038/</a></td></tr><tr><td bgcolor='#EEEEF8' align='left'><a href='mailto:secretariatvolleymque@gmail.com' class='lienquestion'><img border='0' src='../images/composemail.gif' title='Envoyer un mél' align='absmiddle'>secretariatvolleymque@gmail.com</a></td></tr><tr><td background='../images/bkrg.gif' class='lienblanc' align='left'><img src='../images/favorites.png' align='absmiddle' border='0'>  Les Contacts des Equipes</td></tr><tr><tr><td bgcolor='#EEEEF8' class='rubrique1' align='left'><a href='../adressier/adressier.php?codent=LIMART' target='_blank' class='liensuite4'><img src='../images/beachcard.gif' align='absmiddle'> Adressier PDF des équipes par poule</a></td></tr><tr><td bgcolor='#EEEEF8' class='rubrique1' align='left'><a href='../adressier/adressier.php?codent=LIMART&typ_edition=E' target='_blank' class='liensuite4'><img src='../images/ico_spo_excel.png' width='20' height='20' align='absmiddle'> Adressier Excel des équipes par poule</a></td></tr><tr><td bgcolor='#EEEEF8' class='rubrique1' align='left'><a href='../adressier/engag_division.php?codent=LIMART' target='_blank' class='liensuite4'><img src='../images/func.gif' align='absmiddle'> Liste des Engagements</a></td></tr></table></td></tr></td></tr></TABLE><p></p>
+</body> 
+</html> 
